@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Llave — Exclusive Madrid Experiences</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c4a265;
+      --gold-light: #d4b87a;
+      --gold-muted: rgba(196,162,101,0.5);
+      --cream: #f6f1eb;
+      --cream-dark: #ede6dc;
+      --bg-dark: #0c0b09;
+      --bg-warm: #141210;
+      --bg-card: #1c1a17;
+      --text-light: #f2ede6;
+      --text-secondary: #9e9487;
+      --text-muted: #6d645a;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.75;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--gold); color: var(--bg-dark); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.8rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    nav.scrolled {
+      background: rgba(12,11,9,0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 4rem;
+      border-bottom: 1px solid rgba(196,162,101,0.06);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--text-light); }
+    .nav-cta {
+      color: var(--gold) !important;
+      border: 1px solid rgba(196,162,101,0.3);
+      padding: 0.55rem 1.6rem;
+      transition: all 0.3s !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--bg-dark) !important;
+      border-color: var(--gold);
+    }
+
+    .hamburger {
+      display: none; cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1.5px; background: var(--gold);
+      margin: 5px 0; transition: all 0.3s;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(12,11,9,0.25) 0%,
+          rgba(12,11,9,0.45) 40%,
+          rgba(12,11,9,0.85) 80%,
+          var(--bg-dark) 100%),
+        url('https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1920&q=80') center/cover no-repeat;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 780px; padding: 0 2rem;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.7rem; font-weight: 400;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.08;
+      margin-bottom: 2rem;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--gold);
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+      line-height: 1.9;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 2.8rem;
+      font-family: var(--sans);
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--bg-dark); background: var(--gold);
+      text-decoration: none; border: none;
+      transition: all 0.4s;
+    }
+    .hero-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(196,162,101,0.2);
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+      z-index: 2;
+    }
+    .scroll-hint span {
+      display: block; width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold-muted), transparent);
+      animation: drift 2.5s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%, 100% { opacity: 0.2; height: 30px; }
+      50% { opacity: 0.7; height: 50px; }
+    }
+
+    /* ── SHARED ── */
+    section { padding: 8rem 2rem; }
+    .container { max-width: 1140px; margin: 0 auto; }
+    .label {
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+      display: block;
+    }
+    .heading {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .subtext {
+      font-size: 0.95rem; color: var(--text-secondary);
+      font-weight: 300; line-height: 1.9;
+      max-width: 540px;
+    }
+    .thin-line {
+      width: 50px; height: 1px;
+      background: var(--gold-muted);
+      margin: 2rem 0;
+    }
+
+    /* ── WHAT WE OFFER ── */
+    .offer { background: var(--bg-warm); padding: 8rem 2rem; }
+
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+      margin-top: 4rem;
+    }
+    .offer-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(196,162,101,0.06);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s;
+      cursor: default;
+    }
+    .offer-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(196,162,101,0.15);
+    }
+    .offer-card-img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.8) saturate(0.9);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .offer-card:hover .offer-card-img { transform: scale(1.03); filter: brightness(0.9) saturate(1); }
+    .offer-card-img-wrap {
+      overflow: hidden;
+      border-radius: 14px 14px 0 0;
+    }
+    .offer-card-body {
+      padding: 2rem 2rem 2.5rem;
+    }
+    .offer-card-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      margin-bottom: 1rem;
+    }
+    .offer-card-icon svg {
+      width: 28px; height: 28px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .offer-card h3 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-bottom: 0.7rem;
+    }
+    .offer-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── FOUNDER ── */
+    .founder { background: var(--bg-warm); }
+    .founder-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .founder-image-wrap {
+      position: relative;
+    }
+    .founder-image-wrap img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: center 20%;
+      filter: contrast(1.03) saturate(0.95);
+    }
+    .founder-image-accent {
+      position: absolute;
+      top: -14px; left: -14px;
+      width: 100%; height: 100%;
+      border: 1px solid rgba(196,162,101,0.12);
+      pointer-events: none;
+    }
+    .founder-text .subtext { max-width: 500px; }
+    .founder-text .subtext + .subtext { margin-top: 1.2rem; }
+
+    .founder-languages {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .lang-tag {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(196,162,101,0.2);
+      padding: 0.4rem 1rem;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .process { background: var(--bg-dark); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .process-step {
+      padding: 2.8rem 2.2rem;
+      border: 1px solid rgba(196,162,101,0.06);
+      background: var(--bg-warm);
+      position: relative;
+      transition: border-color 0.4s;
+    }
+    .process-step:hover { border-color: rgba(196,162,101,0.15); }
+    .process-num {
+      font-family: var(--serif);
+      font-size: 3.5rem; font-weight: 300;
+      color: rgba(196,162,101,0.1);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .process-step h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem; font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+    .process-step p {
+      font-size: 0.88rem; color: var(--text-secondary);
+      font-weight: 300; line-height: 1.8;
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .gallery img {
+      width: 100%; height: 320px;
+      object-fit: cover;
+      filter: brightness(0.55) saturate(0.85);
+      transition: all 0.5s;
+    }
+    .gallery img:hover {
+      filter: brightness(0.8) saturate(1);
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--bg-warm);
+      text-align: center;
+    }
+    .contact .heading { margin-bottom: 1rem; }
+    .contact .subtext {
+      max-width: 500px; margin: 0 auto 3rem;
+    }
+    .contact-methods {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      padding: 1.1rem 2.8rem;
+      font-family: var(--sans);
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.35s;
+    }
+    .contact-btn-wa {
+      background: var(--gold);
+      color: var(--bg-dark);
+    }
+    .contact-btn-wa:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(196,162,101,0.15);
+    }
+    .contact-btn-wa svg {
+      width: 18px; height: 18px; fill: var(--bg-dark);
+    }
+    .contact-btn-email {
+      color: var(--text-light);
+      border: 1px solid rgba(196,162,101,0.25);
+    }
+    .contact-btn-email:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .contact-btn-email svg {
+      width: 18px; height: 18px; stroke: currentColor; fill: none;
+      stroke-width: 1.5;
+    }
+    .contact-note {
+      margin-top: 2.5rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+      font-family: var(--serif);
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3.5rem 2rem;
+      border-top: 1px solid rgba(196,162,101,0.06);
+      text-align: center;
+      background: var(--bg-dark);
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1.5rem; font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+    }
+    footer p {
+      font-size: 0.75rem; color: var(--text-muted);
+      font-weight: 300; letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay { transition-delay: 0.15s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .offer-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+      .founder-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .founder-image-wrap { max-width: 450px; }
+      .process-steps { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      nav.scrolled { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(12,11,9,0.97);
+        backdrop-filter: blur(20px);
+        padding: 2.5rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(196,162,101,0.06);
+      }
+      section { padding: 5.5rem 1.5rem; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .gallery img { height: 220px; }
+      .offer-card-img { height: 280px; }
+      .contact-methods { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">La Llave</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#offer">Experiences</a></li>
+      <li><a href="#founder">The Story</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Madrid, privately yours</span>
+      <h1>Discover Madrid<br><em>Like a Local</em></h1>
+      <p class="hero-desc">Exclusive, fully personal journeys through the restaurants, bars, museums, and nightlife that only locals know — guided by someone who lives it every day.</p>
+      <a href="#contact" class="hero-cta">Text Me Directly</a>
+    </div>
+    <div class="scroll-hint"><span></span></div>
+  </section>
+
+  <!-- WHAT WE OFFER -->
+  <section class="offer" id="offer">
+    <div class="container">
+      <div class="fade-in" style="text-align:center; max-width:580px; margin:0 auto;">
+        <span class="label">What We Offer</span>
+        <h2 class="heading">Curated Experiences</h2>
+        <p class="subtext" style="margin:0 auto;">Every journey is tailored entirely to you — your tastes, your pace, your curiosity. No fixed itineraries, no crowds, no compromises.</p>
+      </div>
+      <div class="offer-grid">
+
+        <!-- Culinary -->
+        <div class="offer-card fade-in">
+          <div class="offer-card-img-wrap">
+            <img class="offer-card-img" src="https://images.unsplash.com/photo-1514933651103-005f24d0c8f5?w=700&q=80" alt="Dark intimate restaurant with wine glasses" />
+          </div>
+          <div class="offer-card-body">
+            <div class="offer-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <h3>Culinary Journeys</h3>
+            <p>From Michelin-starred kitchens to century-old family tabernas — taste Madrid through the stories behind every dish. Private tables, chef introductions, and menus you won't find online.</p>
+          </div>
+        </div>
+
+        <!-- Art & Culture -->
+        <div class="offer-card fade-in fade-in-delay">
+          <div class="offer-card-img-wrap">
+            <img class="offer-card-img" src="https://images.unsplash.com/photo-1577720643272-265f09367456?w=700&q=80" alt="Gold-framed masterpieces at the Prado" />
+          </div>
+          <div class="offer-card-body">
+            <div class="offer-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/><path d="M9 10h0"/><path d="M15 10h0"/></svg>
+            </div>
+            <h3>Art &amp; Culture</h3>
+            <p>Skip the queues and the crowds. Walk through the Prado, Reina Sof&iacute;a, and private galleries with personal anecdotes that bring every painting to life.</p>
+          </div>
+        </div>
+
+        <!-- Nightlife -->
+        <div class="offer-card fade-in">
+          <div class="offer-card-img-wrap">
+            <img class="offer-card-img" src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=700&q=80" alt="Craft cocktails in dim bar light" />
+          </div>
+          <div class="offer-card-body">
+            <div class="offer-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M20 3H4l4 8h8l4-8z"/></svg>
+            </div>
+            <h3>Nightlife &amp; Bars</h3>
+            <p>Speakeasies, rooftop terraces, and legendary cocktail bars — discover Madrid after dark with curated routes and VIP access to the city's best-kept secrets.</p>
+          </div>
+        </div>
+
+        <!-- Bespoke Tailoring -->
+        <div class="offer-card fade-in fade-in-delay">
+          <div class="offer-card-img-wrap">
+            <img class="offer-card-img" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&q=80" alt="Bespoke suit details" />
+          </div>
+          <div class="offer-card-body">
+            <div class="offer-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l2.3 2.3a2.4 2.4 0 0 0 3.4 0L21 17V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v13l3.3 3.3z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg>
+            </div>
+            <h3>Bespoke Tailoring</h3>
+            <p>Madrid is home to some of Spain's finest tailors. I'll take you to the ateliers where master craftsmen still cut suits by hand — a private fitting in a setting that feels worlds away from fast fashion.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER STORY -->
+  <section class="founder" id="founder">
+    <div class="container">
+      <div class="founder-layout">
+        <div class="founder-image-wrap fade-in">
+          <img src="lucas-founder.jpg" alt="Lucas — Founder of La Llave" />
+          <div class="founder-image-accent"></div>
+        </div>
+        <div class="founder-text fade-in">
+          <span class="label">The Story Behind La Llave</span>
+          <h2 class="heading">Not a Tour.<br>An Invitation.</h2>
+          <div class="thin-line"></div>
+          <p class="subtext">
+            I'm Lucas — 23, born and raised in Hong Kong to a Spanish mother and a Dutch father. After years between Switzerland and the Netherlands, I arrived in Madrid and knew immediately this was home. A lifetime in international settings across three continents taught me one thing: the best moments happen around a table, a glass of wine, or a conversation with someone who truly knows the place.
+          </p>
+          <p class="subtext">
+            I'm someone who lives for good food — I cook, I eat, I obsess over where the best <em>tortilla</em> in the city is this week. I'm drawn to sports, from football matches under floodlights to early morning padel. And I collect the kind of places that don't end up in guidebooks: the wine cellars that don't appear on Google, the bars without signs, the restaurants where the chef only cooks for people he knows.
+          </p>
+          <p class="subtext">
+            La Llave is how I share that Madrid with you. Every experience is personally organized and guided by me. I'll arrange a private driver, take you to the places I've built real relationships with, and tell you the stories behind every stop — from the provenance of a painting at the Prado to why a particular cocktail bar only opens on Tuesdays.
+          </p>
+          <p class="subtext">
+            A private <em>cochinillo</em> lunch in Segovia with a scenic drive through the countryside. Seats at the Bernab&eacute;u or the Metropolitano on match day. An evening that begins with a sunset wine tasting on a rooftop and ends wherever the night takes us. Whatever the occasion, I'll make it happen — personally and with care.
+          </p>
+          <p class="subtext">
+            This isn't a tour. It's what it feels like when a well-connected friend who knows every corner of Madrid invites you into his city — because that's exactly what it is.
+          </p>
+          <div class="founder-languages">
+            <span class="lang-tag">English</span>
+            <span class="lang-tag">Spanish</span>
+            <span class="lang-tag">Dutch</span>
+            <span class="lang-tag">German</span>
+            <span class="lang-tag">French</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="process" id="process">
+    <div class="container">
+      <div class="fade-in" style="text-align:center; max-width:530px; margin:0 auto;">
+        <span class="label">How It Works</span>
+        <h2 class="heading">From First Message<br>to Last Glass</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step fade-in">
+          <div class="process-num">01</div>
+          <h3>Text Me</h3>
+          <p>Send me a WhatsApp with your dates, what excites you, and who you're travelling with. I'll reply personally — no forms, no bots, just a real conversation about what your ideal Madrid looks like.</p>
+        </div>
+        <div class="process-step fade-in fade-in-delay">
+          <div class="process-num">02</div>
+          <h3>I Design Your Day</h3>
+          <p>I'll put together a bespoke itinerary based on everything you've told me — securing private reservations, arranging your driver, and weaving in the personal stories and hidden spots that make it unforgettable.</p>
+        </div>
+        <div class="process-step fade-in">
+          <div class="process-num">03</div>
+          <h3>Live It — Together</h3>
+          <p>I'll be right there with you the entire time. From the first stop to the last glass, I'm by your side — opening doors, making introductions, sharing the stories behind every place we visit. Your driver handles the logistics while we enjoy the city together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80" alt="Madrid rooftops at golden hour" class="fade-in" />
+    <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80" alt="Bernab&eacute;u stadium on match night" class="fade-in" />
+    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&q=80" alt="The art of the corrida" class="fade-in" />
+    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="Spanish wine tasting" class="fade-in" />
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="fade-in">
+        <span class="label">Get in Touch</span>
+        <h2 class="heading">Let's Plan<br>Your Madrid</h2>
+        <p class="subtext" style="margin:0 auto;">
+          No forms, no automated replies. Text me directly and we'll start building your perfect experience together — personally, from the very first message.
+        </p>
+      </div>
+      <div class="contact-methods fade-in">
+        <a href="https://wa.me/41783335857" target="_blank" class="contact-btn contact-btn-wa">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.627.616l4.584-1.207A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.24 0-4.31-.737-5.977-1.98l-.418-.312-2.72.717.73-2.664-.342-.546A9.72 9.72 0 012.25 12 9.75 9.75 0 0112 2.25 9.75 9.75 0 0121.75 12 9.75 9.75 0 0112 21.75z"/></svg>
+          Text Me on WhatsApp
+        </a>
+        <a href="mailto:hello@lallave.es" class="contact-btn contact-btn-email">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+          hello@lallave.es
+        </a>
+      </div>
+      <p class="contact-note fade-in">I usually reply within a few hours — let's make something special</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">La Llave</div>
+    <p>&copy; 2026 La Llave. Exclusive Madrid Experiences.</p>
+  </footer>
+
+  <script>
+    // NAV
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(l =>
+      l.addEventListener('click', () => navLinks.classList.remove('open'))
+    );
+
+    // FADE IN
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
